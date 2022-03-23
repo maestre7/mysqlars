@@ -159,7 +159,7 @@ def leer_yaml(origen):
     
     try:
         with open(Path(origen)) as f:
-            salida = yaml.load(f, Loader=yaml.FullLoader)
+            salida = yaml.safe_load(f, Loader=yaml.FullLoader)
             
     except (ValueError, AttributeError, TypeError, OSError):
         logger.exception('leer_yaml')
@@ -386,7 +386,7 @@ def comparar_img(img1, img2):
         
         
 def tipo_fichero(fichero):
-    
+
     '''
     Localizamos la extesion del fichero.
     fichero: Path del fichero a tratar. PATH o STR

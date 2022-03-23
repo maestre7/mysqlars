@@ -223,7 +223,7 @@ class PyMySqlArs:
         '''
         Recivimos los datos a updatear, los tratamos y ejecutamos el cursor.
         datos: un dict o una lista de ellos con la informacion a tratar. DICT o LIST/TUPLA de DICT
-        conn: Conexion previamente establecida o datos para establecer una nueva. 
+        conn: Conexion previamente establecida o datos para establecer una nueva.
         conn: False para solo recibir el update listo para ejecucion. 
         OBJ, DICT o STR/PATH de un fichero YAML o JSON. FALSE.
         '''
@@ -283,12 +283,6 @@ class PyMySqlArs:
         salida = None
         
         try:
-            #for c in data['#column'][0]:
-            #    if len(c) == 1:
-            #        cabecera = c[0] + ' = %s'
-            #    else:
-            #        cabecera = ' = %s, '.join(c)
-            #        cabecera += ' = %s'
             if len(data['#column'][0]) == 1:
                 cabecera = f"{data['#column'][0][0]} = %s"
             else:
@@ -677,7 +671,7 @@ class PyMySqlArs:
             SELECT += " WHERE " + self.where_keys
 
         if order_by_switch:
-            SELECT += " ORDER BY " + self.order_by_value 
+            SELECT += " ORDER BY " + self.order_by_value
             
         return SELECT
         
