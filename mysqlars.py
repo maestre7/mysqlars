@@ -3,13 +3,13 @@
 # Conexion, campos requeridos en formato DICT:
 #   user: usario de la BBDD
 #   password: clave del user para BBDD
-#   db: BBDD a la que se desea conectar   
+#   db: BBDD a la que se desea conectar
 #   host: servidor de BBDD
 #   charset: enconding de la informacion
 #
 #
 # Formato DICT para la ejecucion de peticiones a BBDD:
-#   #table: Nombre de la tabla. 
+#   #table: Nombre de la tabla.
 #   #where: dict con las claves de las condiciones de la busqueda.
 #       {'column': ['comparador', 'valor', 'relacion con la siguiente condicion']} - Condiciones multiples
 #       ej: {#where: {'id': ['=', '1234', 'and']}
@@ -30,12 +30,11 @@
 #       {'#column': 'column1, column2, etc...'} - Para indicar columnas que se desean recuperar.
 #   #order_by: Orden de los registros recuperados.
 #       ej: {'#order_by': 'column1, column2, etc...'}
-#           {'#order_by': 'ASC' o 'DESC'} 
+#           {'#order_by': 'ASC' o 'DESC'}
 #
 #########################################################################################################################
 
 import logging # Log
-import subprocess # Tuberias
 from pathlib import Path, WindowsPath # Path
 
 import pymysql # Conexion sql
@@ -45,7 +44,8 @@ from common.archivos import tipo_fichero, leer_yaml, leer_json
 
 # Gestion de conexion con sql a traves de dict para su conversion a SQL
 class PyMySqlArs:
-    ''' Management of connection with sql through dict for its conversion to SQL '''
+
+    ''' Management of connection with sql through dict for its conversion to SQL.'''
  
  
     def __init__(self):
@@ -57,7 +57,6 @@ class PyMySqlArs:
     def conexion(self, login="sql/login/login_sql.yaml"):
         '''
         Funcion para el proceso de conexion con sql
-        
         login: Informacion necesaria para el login. DICT o STR/PATH de un fichero YAML o JSON
         '''
          
@@ -66,7 +65,7 @@ class PyMySqlArs:
         try:
             if type(login) is dict:
                 data = login
-            else:    
+            else:
                 data = self.rec_data(login)
             
             if data != False:
@@ -90,9 +89,7 @@ class PyMySqlArs:
     def rec_data(self, login):
         '''
         Discriminamos si el login nos viene en un dict directamente o en fichero.
-        
         Login: Informacion para el login. STR o PATH de un fichero YAML o JSON
-        
         salida: informacion en formato Dict o False en caso de error. DICT o FALSE/NONE
         '''
         
@@ -134,9 +131,7 @@ class PyMySqlArs:
     def tratar_datos(self, datos):
         '''
         Discriminamos si los datos son un Dict o list/tupla de Dict. 
-        
         Datos: Informacion a procesar. DICT o LIST/TUPLA de DICT
-        
         Salida: Informacon pre-procesada o False en caso de error. DICT o LIST[DICT] o FALSE/NONE
         '''
         
@@ -175,9 +170,7 @@ class PyMySqlArs:
     def tratar_dict(self, datos_dict):
         '''
         Tratamos el dict entrante para adatarlo poco a poco formato sql.
-        
         datos_dict: dict con la informacion a tratar. DICT
-        
         salida: un dict con la informacion base tratada o un False de dar error. DICT o FALSE/NONE
         '''
         
@@ -229,9 +222,7 @@ class PyMySqlArs:
     def update(self, datos, conn=None):
         '''
         Recivimos los datos a updatear, los tratamos y ejecutamos el cursor.
-        
         datos: un dict o una lista de ellos con la informacion a tratar. DICT o LIST/TUPLA de DICT
-        
         conn: Conexion previamente establecida o datos para establecer una nueva. 
         conn: False para solo recibir el update listo para ejecucion. 
         OBJ, DICT o STR/PATH de un fichero YAML o JSON. FALSE.
@@ -285,7 +276,6 @@ class PyMySqlArs:
     def tratar_update(self, data):
         '''
         Preparamos el UPDATE con los datos del dict entrante.
-        
         data: Dict tratado y pre-procesado para crear el update. DICT
         '''
         
@@ -325,7 +315,6 @@ class PyMySqlArs:
     def ejecutar_update(self, UPDATE, datos_update):
         '''
         UPDATE: Un str con el update en formato sql. STR
-        
         datos_update: Valores de los campos del update. LIST
         '''
 
@@ -346,9 +335,7 @@ class PyMySqlArs:
     def insert(self, datos, conn=None):
         '''
         Recivimos los datos a insertar, los tratamos y ejecutamos el cursor.
-        
         datos: un dict o una lista de ellos con la informacion a tratar. DICT o LIST/TUPLA de DICT
-        
         conn: Conexion previamente establecida o datos para establecer una nueva. 
         conn: False para solo recibir el insert listo para ejecucion.
         OBJ, DICT o STR/PATH de un fichero YAML o JSON
@@ -403,7 +390,6 @@ class PyMySqlArs:
     def tratar_insert(self, data):
         '''
         Preparamos el INSERT con los datos del dict entrante.
-        
         data: Dict tratado y pre-procesado para crear el insert. DICT
         '''
         
@@ -436,7 +422,6 @@ class PyMySqlArs:
     def ejecutar_insert(self, INSERT, datos_insert):
         '''
         INSERT: Un str con el insert en formato sql. STR
-        
         datos_insert: Valores de los campos del insert. LIST
         '''
 
@@ -457,9 +442,7 @@ class PyMySqlArs:
     def delete(self, datos, conn=None):
         '''
         Recivimos los datos a delete, los tratamos y ejecutamos el cursor.
-        
         datos: un dict o una lista de ellos con la informacion a tratar. DICT o LIST/TUPLA de DICT
-        
         conn: Conexion previamente establecida o datos para establecer una nueva. 
         conn: False para solo recibir el update listo para ejecucion. 
         OBJ, DICT o STR/PATH de un fichero YAML o JSON. FALSE.
@@ -511,7 +494,6 @@ class PyMySqlArs:
     def tratar_delete(self, data):
         '''
         Preparamos el delete con los datos del dict entrante.
-        
         data: Dict tratado y pre-procesado para crear el delete. DICT
         '''
         
@@ -539,7 +521,6 @@ class PyMySqlArs:
     def ejecutar_delete(self, DELETE, datos_delete):
         '''
         DELETE: Un str con el delete en formato sql. STR
-        
         datos_delete: Valores de los campos del delete. LIST
         '''
         
@@ -565,13 +546,10 @@ class PyMySqlArs:
     def select(self, data, conn=None):
         '''
         Funcion para la creacion de una select SQL a partir de un dict.
-        
         data: Informacion requerida para formar la select. DICT o LIST[DICT]
-        
         conn: Conexion previamente establecida o datos para establecer una nueva.
         conn: False para solo recibir el select listo para ejecucion.        
         OBJ, DICT o STR/PATH de un fichero YAML o JSON
-        
         salida: Datos recuperados con la select o False si da error. DICT o LIST[DICT/LIST] o FALSE/NONE
         '''
         
@@ -612,9 +590,7 @@ class PyMySqlArs:
     def tratar_select(self, data):
         '''
         Preparamos los datos para la creacion de la select.
-        
         data: Datos a tratar para la creacion de la select. DICT
-        
         salida: Datos recuperados de la ejecucion de la select. DICT o LIST
         '''
         
@@ -692,7 +668,6 @@ class PyMySqlArs:
     def mold_select(self, where_switch, order_by_switch):
         '''
         Formamos la select con los datos entrantes.
-        
         salida: SELECT en formato SQL para su ejecucion. STR
         '''
         
@@ -710,7 +685,6 @@ class PyMySqlArs:
     def ejecutar_select(self, SELECT, where_values, format_dict=False, where_switch=False, read = "one", many=3):
         '''
         SELECT: Codigo SQL para la recuperacion de datos en BBDD.
-        
         salida: registro recuperados de la peticion SQL. LIST o DICT
         '''
         
@@ -740,53 +714,3 @@ class PyMySqlArs:
         finally:
             return records
             
-
-def apagar_xampp(folder_sql):
-    ''' 
-    Apagamos Xampp usando una tuberia para ejecutar el ejecutable de parada
-    
-    folder_sql: Path de la carpeta de XAMPP. STR/PATH
-    
-    salida: True si va todo bien y False con algun error. TRUE/FALSE
-    '''
-    
-    logger = logging.getLogger(__name__)
-    salida = None
-    
-    try:
-        xampp_stop_path = Path(f'{folder_sql}/xampp_stop.exe')
-        subprocess.Popen([xampp_stop_path])
-        
-    except (ValueError, AttributeError, TypeError, OSError):
-        logger.exception('apagar_xampp')
-        salida = False
-    else:
-        salida = True
-    finally:
-        return salida
-        
-
-def arrancar_xampp(folder_sql):
-    ''' 
-    Arrancamos Xampp usando una tuberia para ejecutar el ejecutable de inico
-    
-    folder_sql: Path de la carpeta de XAMPP. STR/PATH
-    
-    salida: True si va todo bien y False con algun error. TRUE/FALSE
-    '''
-    
-    logger = logging.getLogger(__name__)
-    salida = None
-    
-    try:
-        xampp_star_path = Path(f'{folder_sql}/xampp_start.exe')
-        subprocess.Popen([xampp_star_path])
-        
-    except (ValueError, AttributeError, TypeError, OSError):
-        logger.exception('arrancar_xampp')
-        salida = False
-    else:
-        salida = True
-    finally:
-        return salida
-        

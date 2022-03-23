@@ -17,10 +17,9 @@ logger = logging.getLogger(__name__)
 
 
 def leer_json(origen):
-    # Lee un solo tipo de formato con varios tipos falla. DICT, LIST, STR... NO MEZCLAR
+
     '''
     Origen: Path de un fichero yaml. PATH o STR 
-    
     Salida: Los datos en el formato salvado o False en caso de error. TYPE DATA FILE o FALSE
     '''
     
@@ -40,11 +39,10 @@ def leer_json(origen):
         
     
 def registro_json(destino, informacion, tipo="w"): 
+
     '''
     Destino: Path de un fichero csv. PATH o STR
-    
     Informacion: datos a escribir.
-    
     Tipo: Formato de escritura. STR
     '''
     
@@ -65,16 +63,13 @@ def registro_json(destino, informacion, tipo="w"):
         
     
 def leer_csv(origen, fieldnames = None, encoding = "utf-8", fdict = True):
+
     '''
     Origen: path de un fichero csv. PATH o STR
-    
     Fieldnames: Es una lista con los nombres de campo o columna en una secuencia de claves 
     que identifican el orden en el que pasaron los valores del diccionario. LIST
-    
     Encoding: codificacion usada con el fichero. STR
-    
     Fdict: Formato dict o csv normal. TRUE/FALSE
-    
     Salida: Una lista con los distintos Dict o Str dependiendo si esta o no activo el 
     formato dict o un False en caso de error.  LIST o FALSE
     '''
@@ -104,18 +99,14 @@ def leer_csv(origen, fieldnames = None, encoding = "utf-8", fdict = True):
     
 def registro_csv(destino, informacion, fieldnames = None, 
                  tipo = "a+", encoding = "utf-8"):
+
     '''
     Destino: Path de un fichero csv. PATH o STR
-    
     Informacion: Datos a escribir en formato en csv. STR o LIST o TUPLE
-    
     Fieldnames: Es una lista con los nombres de campo o columna, es una secuencia de claves 
     que identifican el orden en el que pasaron los valores del diccionario. LIST
-    
     Tipo: Formato de escritura. STR
-    
     Encoding: codificacion usada con el fichero. STR
-    
     Salida: True en caso de ir todo bien o False si da un error. TRUE/FALSE
     '''
     
@@ -158,10 +149,9 @@ def registro_csv(destino, informacion, fieldnames = None,
 
 
 def leer_yaml(origen):
-    # Lee un solo tipo de formato con varios tipos falla. DICT, LIST, STR... NO MEZCLAR
+
     '''
     Origen: Path de un fichero yaml. PATH o STR 
-    
     Salida: Los datos en el formato salvado o False en caso de error. TYPE DATA FILE o FALSE
     '''
     
@@ -181,11 +171,10 @@ def leer_yaml(origen):
     
     
 def registro_yaml(destino, informacion, tipo="w"):
+
     '''
     Destino: Path de un fichero yaml. PATH o STR
-    
     Informacion: datos a escribir.
-    
     Tipo: Formato de escritura. STR
     '''
     
@@ -206,11 +195,10 @@ def registro_yaml(destino, informacion, tipo="w"):
          
 
 def leer_fichero(origen, encoding="utf-8"):
+
     '''
     Origen: Path de un fichero texto. PATH o STR 
-    
     Encoding: codificacion usada con el fichero. STR
-    
     Salida: Los datos en el formato salvado o False en caso de error. LIST o FALSE
     '''
     
@@ -230,13 +218,11 @@ def leer_fichero(origen, encoding="utf-8"):
         
 
 def registro_fichero(destino, informacion, encoding="utf-8", tipo="a+"):
+
     '''
     Destino: Path de un fichero de texto. PATH o STR
-    
     Informacion: datos a escribir. STR
-    
     Encoding: codificacion usada con el fichero. STR
-    
     Tipo: Formato de escritura. STR
     '''
     
@@ -265,11 +251,10 @@ def registro_fichero(destino, informacion, encoding="utf-8", tipo="a+"):
         
         
 def descarga_fichero_binario(origen, destino, my_referer = None):
+
     '''
     Recogemos un fichero url y lo descargamos en el path de destino.
-    
     Origen: Url desde la que descargamos el fichero binario. STR
-    
     Destino: Path donde descargamos la imagen. PATH o STR
     '''
     
@@ -313,13 +298,11 @@ def descarga_fichero_binario(origen, destino, my_referer = None):
         
 			
 def crear_carpetas(names, root = "."):
+
     '''
     Comprovamos la existencia de las carpetas y de ser necesario las creamos.
-    
     names: Nombre de las carpetas a crear. LIST
-    
     root: Raiz desde la que se crean las carpetas. PATH o STR
-    
     salida: Informa si ya existia la ultima carpeta. TRUE/FALSE
     Devuelve el Path final de la ultima carpeta cread en arbol o False si falla. PATH o FALSE
     '''
@@ -348,13 +331,11 @@ def crear_carpetas(names, root = "."):
         
     
 def contar_archivos(carpeta, tipo='*'):
+
     ''' 
     Recuperamos el numero de archivos en la carpeta, se puede discriminar por tipo.
-    
     Carpeta: Directorio donde se realiza la busqueda. PATH o STR
-    
     Tipo: Tipo de fichero a buscar. STR 
-    
     salida: Numero de imagenes encontradas. INT
             Lista con el path de los archivos encontrados. LIST[PATH]
     '''
@@ -375,13 +356,11 @@ def contar_archivos(carpeta, tipo='*'):
     
  
 def comparar_img(img1, img2):
+
     '''
     Comparamos dos imagenes para ver si son iguales.
-    
     img1: Path de la imagen a trata. PATH o STR
-    
     img2: Path de la imagen a trata. PATH o STR
-    
     Salida: Informamos si son iguales o no, None si falla. TRUE/FALSE o NONE
     '''
     
@@ -407,11 +386,10 @@ def comparar_img(img1, img2):
         
         
 def tipo_fichero(fichero):
+    
     '''
     Localizamos la extesion del fichero.
-    
     fichero: Path del fichero a tratar. PATH o STR
-    
     salida: Extension del fichero con el punto o False si da error. STR o FALSE
     '''
     
