@@ -208,17 +208,18 @@ class PyMySqlArs:
             else:
                 self.logger.error(f"tratar_dict: no table;{datos_dict}")
         finally:
-            return salida 
+            return salida
+            
 
     def check_conn(self, conn):
         '''conn: False para solo recibir el update listo para ejecucion.'''
 
         if type(conn) is dict or type(conn) is WindowsPath or type(conn) is str:
-                self.conexion(conn)
-            elif conn == False:
-                self.no_conn = True
-            else:    
-                self.conn = conn     
+            self.conexion(conn)
+        elif conn = False:
+            self.no_conn = True
+        else:    
+            self.conn = conn     
 
             
     def update(self, datos, conn=None):

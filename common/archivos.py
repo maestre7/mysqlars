@@ -8,7 +8,7 @@ import json
 import csv
 
 import requests
-import yaml 
+import yaml
 from fake_useragent import UserAgent, FakeUserAgentError
 from PIL import Image, ImageChops # Pillow
 
@@ -18,9 +18,9 @@ logger = logging.getLogger(__name__)
 
 def leer_json(origen):
 
-    '''Origen: Path de un fichero yaml. PATH o STR 
+    '''Origen: Path de un fichero yaml. PATH o STR
     Salida: Los datos en el formato salvado o False en caso de error. TYPE DATA FILE o FALSE'''
-    
+
     salida = None
     
     try:
@@ -36,7 +36,7 @@ def leer_json(origen):
         return salida
         
     
-def registro_json(destino, informacion, tipo="w"): 
+def registro_json(destino, informacion, tipo="w"):
 
     '''Destino: Path de un fichero csv. PATH o STR
     Informacion: datos a escribir.
@@ -52,7 +52,7 @@ def registro_json(destino, informacion, tipo="w"):
         logger.exception('registro_json')
         salida = False
     else:
-        logger.info("Json file write: OK ")  
+        logger.info("Json file write: OK ")
         salida = True
     finally:
         return salida
@@ -91,12 +91,12 @@ def leer_csv(origen, fieldnames = None, encoding = "utf-8", fdict = True):
         return salida
         
     
-def registro_csv(destino, informacion, fieldnames = None, 
+def registro_csv(destino, informacion, fieldnames = None,
                  tipo = "a+", encoding = "utf-8"):
 
     '''Destino: Path de un fichero csv. PATH o STR
     Informacion: Datos a escribir en formato en csv. STR o LIST o TUPLE
-    Fieldnames: Es una lista con los nombres de campo o columna, es una secuencia de claves 
+    Fieldnames: Es una lista con los nombres de campo o columna, es una secuencia de claves
     que identifican el orden en el que pasaron los valores del diccionario. LIST
     Tipo: Formato de escritura. STR
     Encoding: codificacion usada con el fichero. STR
@@ -176,7 +176,7 @@ def registro_yaml(destino, informacion, tipo="w"):
         logger.exception('registro_yaml')
         salida = False
     else:
-        logger.info("Yaml file write: OK ")  
+        logger.info("Yaml file write: OK ")
         salida = True
     finally:
         return salida
@@ -198,7 +198,7 @@ def leer_fichero(origen, encoding="utf-8"):
         logger.exception('leer_fichero')
         salida = False
     else:
-        logger.info(f"Read file: OK ")     
+        logger.info(f"Read file: OK ")
     finally:
         return salida
         
@@ -224,12 +224,12 @@ def registro_fichero(destino, informacion, encoding="utf-8", tipo="a+"):
                 salida = True  
                 logger.info("Write file: OK") 
             else:
-                logger.info("Write file: Type no sorpotado") 
+                logger.info("Write file: Type no sorpotado")
                 salida = False
             
     except (ValueError, AttributeError, TypeError, OSError):
         logger.exception('registro_fichero')
-        salida = False       
+        salida = False
     finally:
         return salida    
         
@@ -304,6 +304,7 @@ def crear_carpetas(names, root = "."):
     except (ValueError, AttributeError, TypeError, OSError):
         logger.exception('crear_carpetas')
         exists = None
+        folder_temp = False
     else:        
         logger.info("folder created: OK")  
     finally:        
@@ -328,7 +329,7 @@ def contar_archivos(carpeta, tipo='*'):
     except (ValueError, AttributeError, TypeError, OSError):
         logger.exception('contar_archivos')
     else:        
-        logger.info(f"contar_archivos: {num_archivos}")  
+        logger.info(f"contar_archivos: {num_archivos}")
     finally:        
         return num_archivos, archivos
     
