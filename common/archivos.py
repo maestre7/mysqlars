@@ -22,7 +22,7 @@ def leer_json(origen):
     Salida: Los datos en el formato salvado o False en caso de error. TYPE DATA FILE o FALSE'''
 
     salida = None
-    
+
     try:
         with open(Path(origen)) as f:
             salida = json.load(f)
@@ -31,7 +31,7 @@ def leer_json(origen):
         logger.exception('leer_json')
         salida = False
     else:
-        logger.info("Json file read: OK ")  
+        logger.info("Json file read: OK ")
     finally:
         return salida
         
@@ -65,7 +65,7 @@ def leer_csv(origen, fieldnames = None, encoding = "utf-8", fdict = True):
     que identifican el orden en el que pasaron los valores del diccionario. LIST
     Encoding: codificacion usada con el fichero. STR
     Fdict: Formato dict o csv normal. TRUE/FALSE
-    Salida: Una lista con los distintos Dict o Str dependiendo si esta o no activo el 
+    Salida: Una lista con los distintos Dict o Str dependiendo si esta o no activo el
     formato dict o un False en caso de error.  LIST o FALSE'''
     
     salida = None
@@ -142,7 +142,7 @@ def registro_csv(destino, informacion, fieldnames = None,
 
 def leer_yaml(origen):
 
-    '''Origen: Path de un fichero yaml. PATH o STR 
+    '''Origen: Path de un fichero yaml. PATH o STR
     Salida: Los datos en el formato salvado o False en caso de error. TYPE DATA FILE o FALSE'''
     
     salida = None
@@ -218,8 +218,8 @@ def registro_fichero(destino, informacion, encoding="utf-8", tipo="a+"):
                 for i in informacion:
                     registro.write(i) #write the info
                 salida = True
-                logger.info("Write file: OK") 
-            elif type(informacion) is str:         
+                logger.info("Write file: OK")
+            elif type(informacion) is str:
                 registro.write(informacion) #write the info
                 salida = True  
                 logger.info("Write file: OK") 
@@ -231,7 +231,7 @@ def registro_fichero(destino, informacion, encoding="utf-8", tipo="a+"):
         logger.exception('registro_fichero')
         salida = False
     finally:
-        return salida    
+        return salida
         
         
 def descarga_fichero_binario(origen, destino, my_referer = None):
@@ -306,7 +306,7 @@ def crear_carpetas(names, root = "."):
         exists = None
         folder_temp = False
     else:        
-        logger.info("folder created: OK")  
+        logger.info("folder created: OK")
     finally:        
         return exists, folder_temp
         
