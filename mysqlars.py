@@ -45,7 +45,7 @@ from common.archivos import tipo_fichero, leer_yaml, leer_json
 # Gestion de conexion con sql a traves de dict para su conversion a SQL
 class PyMySqlArs:
 
-    ''' Management of connection with sql through dict for its conversion to SQL.'''
+    '''Management of connection with sql through dict for its conversion to SQL.'''
  
  
     def __init__(self):
@@ -55,10 +55,8 @@ class PyMySqlArs:
         
         
     def conexion(self, login="sql/login/login_sql.yaml"):
-        '''
-        Funcion para el proceso de conexion con sql
-        login: Informacion necesaria para el login. DICT o STR/PATH de un fichero YAML o JSON
-        '''
+        '''Funcion para el proceso de conexion con sql
+        login: Informacion necesaria para el login. DICT o STR/PATH de un fichero YAML o JSON'''
          
         salida = None
         
@@ -87,11 +85,9 @@ class PyMySqlArs:
             
             
     def rec_data(self, login):
-        '''
-        Discriminamos si el login nos viene en un dict directamente o en fichero.
+        '''Discriminamos si el login nos viene en un dict directamente o en fichero.
         Login: Informacion para el login. STR o PATH de un fichero YAML o JSON
-        salida: informacion en formato Dict o False en caso de error. DICT o FALSE/NONE
-        '''
+        salida: informacion en formato Dict o False en caso de error. DICT o FALSE/NONE'''
         
         salida = None
         
@@ -129,11 +125,9 @@ class PyMySqlArs:
             
         
     def tratar_datos(self, datos):
-        '''
-        Discriminamos si los datos son un Dict o list/tupla de Dict. 
+        '''Discriminamos si los datos son un Dict o list/tupla de Dict. 
         Datos: Informacion a procesar. DICT o LIST/TUPLA de DICT
-        Salida: Informacon pre-procesada o False en caso de error. DICT o LIST[DICT] o FALSE/NONE
-        '''
+        Salida: Informacon pre-procesada o False en caso de error. DICT o LIST[DICT] o FALSE/NONE'''
         
         salida = None
         
@@ -164,15 +158,13 @@ class PyMySqlArs:
         else:
             self.logger.info('tratar_datos: Datos entrantes pre-procesados')
         finally:
-            return salida   
+            return salida
             
             
     def tratar_dict(self, datos_dict):
-        '''
-        Tratamos el dict entrante para adatarlo poco a poco formato sql.
+        '''Tratamos el dict entrante para adatarlo poco a poco formato sql.
         datos_dict: dict con la informacion a tratar. DICT
-        salida: un dict con la informacion base tratada o un False de dar error. DICT o FALSE/NONE
-        '''
+        salida: un dict con la informacion base tratada o un False de dar error. DICT o FALSE/NONE'''
         
         salida = None
         table_exists = False
@@ -208,7 +200,7 @@ class PyMySqlArs:
             self.logger.exception("tratar_dict")
             salida = False
         else:        
-            if table_exists and cabecera_temp != [] and values_temp != []: 
+            if table_exists and cabecera_temp != [] and values_temp != []:
                 dict_salida.update({'#column': [cabecera_temp, values_temp]})
                 salida = dict_salida
             elif table_exists and cabecera_temp == [] and values_temp == []: 
@@ -217,16 +209,24 @@ class PyMySqlArs:
                 self.logger.error(f"tratar_dict: no table;{datos_dict}")
         finally:
             return salida 
-            
+
+    def check_conn(self, conn):
+        '''conn: False para solo recibir el update listo para ejecucion.'''
+
+        if type(conn) is dict or type(conn) is WindowsPath or type(conn) is str:
+                self.conexion(conn)
+            elif conn == False:
+                self.no_conn = True
+            else:    
+                self.conn = conn     
+
             
     def update(self, datos, conn=None):
-        '''
-        Recivimos los datos a updatear, los tratamos y ejecutamos el cursor.
+        '''Recivimos los datos a updatear, los tratamos y ejecutamos el cursor.
         datos: un dict o una lista de ellos con la informacion a tratar. DICT o LIST/TUPLA de DICT
         conn: Conexion previamente establecida o datos para establecer una nueva.
         conn: False para solo recibir el update listo para ejecucion. 
-        OBJ, DICT o STR/PATH de un fichero YAML o JSON. FALSE.
-        '''
+        OBJ, DICT o STR/PATH de un fichero YAML o JSON. FALSE.'''
         
         salida = None
         self.no_conn = False
@@ -235,12 +235,7 @@ class PyMySqlArs:
         
         try:
             if conn != None:
-                if type(conn) is dict or type(conn) is WindowsPath or type(conn) is str:
-                    self.conexion(conn)
-                elif conn == False:
-                    self.no_conn = True
-                else:    
-                    self.conn = conn
+                self.check_conn(conn)
                     
             if not data in [False, None]:
                 if type(data) is list:
@@ -274,10 +269,8 @@ class PyMySqlArs:
 
 
     def tratar_update(self, data):
-        '''
-        Preparamos el UPDATE con los datos del dict entrante.
-        data: Dict tratado y pre-procesado para crear el update. DICT
-        '''
+        '''Preparamos el UPDATE con los datos del dict entrante.
+        data: Dict tratado y pre-procesado para crear el update. DICT'''
         
         datos_update = []
         salida = None
@@ -307,10 +300,8 @@ class PyMySqlArs:
             
 
     def ejecutar_update(self, UPDATE, datos_update):
-        '''
-        UPDATE: Un str con el update en formato sql. STR
-        datos_update: Valores de los campos del update. LIST
-        '''
+        '''UPDATE: Un str con el update en formato sql. STR
+        datos_update: Valores de los campos del update. LIST'''
 
         try:
             c_update = self.conn.cursor() # Declarramos cursor 
@@ -327,13 +318,11 @@ class PyMySqlArs:
             
         
     def insert(self, datos, conn=None):
-        '''
-        Recivimos los datos a insertar, los tratamos y ejecutamos el cursor.
+        '''Recivimos los datos a insertar, los tratamos y ejecutamos el cursor.
         datos: un dict o una lista de ellos con la informacion a tratar. DICT o LIST/TUPLA de DICT
         conn: Conexion previamente establecida o datos para establecer una nueva. 
         conn: False para solo recibir el insert listo para ejecucion.
-        OBJ, DICT o STR/PATH de un fichero YAML o JSON
-        '''
+        OBJ, DICT o STR/PATH de un fichero YAML o JSON'''
         
         salida = None
         self.no_conn = False
@@ -342,12 +331,7 @@ class PyMySqlArs:
         
         try:
             if conn != None:
-                if type(conn) is dict or type(conn) is WindowsPath or type(conn) is str:
-                    self.conexion(conn)
-                elif conn == False:
-                    self.no_conn = True
-                else:    
-                    self.conn = conn
+                self.check_conn(conn)
                     
             if not data in [False, None]:
                 if type(data) is list:
@@ -382,10 +366,8 @@ class PyMySqlArs:
             
             
     def tratar_insert(self, data):
-        '''
-        Preparamos el INSERT con los datos del dict entrante.
-        data: Dict tratado y pre-procesado para crear el insert. DICT
-        '''
+        '''Preparamos el INSERT con los datos del dict entrante.
+        data: Dict tratado y pre-procesado para crear el insert. DICT'''
         
         datos_insert = []
         salida = None
@@ -414,10 +396,8 @@ class PyMySqlArs:
             
             
     def ejecutar_insert(self, INSERT, datos_insert):
-        '''
-        INSERT: Un str con el insert en formato sql. STR
-        datos_insert: Valores de los campos del insert. LIST
-        '''
+        '''INSERT: Un str con el insert en formato sql. STR
+        datos_insert: Valores de los campos del insert. LIST'''
 
         try:
             c_insert = self.conn.cursor() # Declarramos cursor 
@@ -434,13 +414,11 @@ class PyMySqlArs:
             
             
     def delete(self, datos, conn=None):
-        '''
-        Recivimos los datos a delete, los tratamos y ejecutamos el cursor.
+        '''Recivimos los datos a delete, los tratamos y ejecutamos el cursor.
         datos: un dict o una lista de ellos con la informacion a tratar. DICT o LIST/TUPLA de DICT
         conn: Conexion previamente establecida o datos para establecer una nueva. 
         conn: False para solo recibir el update listo para ejecucion. 
-        OBJ, DICT o STR/PATH de un fichero YAML o JSON. FALSE.
-        '''
+        OBJ, DICT o STR/PATH de un fichero YAML o JSON. FALSE.'''
         
         salida = None
         self.no_conn = False
@@ -449,12 +427,7 @@ class PyMySqlArs:
         
         try:
             if conn != None:
-                if type(conn) is dict or type(conn) is WindowsPath or type(conn) is str:
-                    self.conexion(conn)
-                elif conn == False:
-                    self.no_conn = True
-                else:    
-                    self.conn = conn
+                self.check_conn(conn)
                     
             if not data in [False, None]:
                 if type(data) is list:
@@ -486,10 +459,8 @@ class PyMySqlArs:
             
             
     def tratar_delete(self, data):
-        '''
-        Preparamos el delete con los datos del dict entrante.
-        data: Dict tratado y pre-procesado para crear el delete. DICT
-        '''
+        '''Preparamos el delete con los datos del dict entrante.
+        data: Dict tratado y pre-procesado para crear el delete. DICT'''
         
         datos_delete = []
         salida = None
@@ -513,10 +484,8 @@ class PyMySqlArs:
                 
                 
     def ejecutar_delete(self, DELETE, datos_delete):
-        '''
-        DELETE: Un str con el delete en formato sql. STR
-        datos_delete: Valores de los campos del delete. LIST
-        '''
+        '''DELETE: Un str con el delete en formato sql. STR
+        datos_delete: Valores de los campos del delete. LIST'''
         
         salida = None
         
@@ -538,26 +507,19 @@ class PyMySqlArs:
                
             
     def select(self, data, conn=None):
-        '''
-        Funcion para la creacion de una select SQL a partir de un dict.
+        '''Funcion para la creacion de una select SQL a partir de un dict.
         data: Informacion requerida para formar la select. DICT o LIST[DICT]
         conn: Conexion previamente establecida o datos para establecer una nueva.
         conn: False para solo recibir el select listo para ejecucion.        
         OBJ, DICT o STR/PATH de un fichero YAML o JSON
-        salida: Datos recuperados con la select o False si da error. DICT o LIST[DICT/LIST] o FALSE/NONE
-        '''
+        salida: Datos recuperados con la select o False si da error. DICT o LIST[DICT/LIST] o FALSE/NONE'''
         
         salida = None
         self.no_conn = False
         
         try:
             if conn != None:
-                if type(conn) is dict or type(conn) is WindowsPath or type(conn) is str:
-                    self.conexion(conn)
-                elif conn == False:
-                    self.no_conn = True
-                else: 
-                    self.conn = conn    
+                self.check_conn(conn)   
                     
             if type(data) is list:
                 salida_select = []
@@ -582,11 +544,9 @@ class PyMySqlArs:
             
             
     def tratar_select(self, data):
-        '''
-        Preparamos los datos para la creacion de la select.
+        '''Preparamos los datos para la creacion de la select.
         data: Datos a tratar para la creacion de la select. DICT
-        salida: Datos recuperados de la ejecucion de la select. DICT o LIST
-        '''
+        salida: Datos recuperados de la ejecucion de la select. DICT o LIST'''
         
         read = "one"
         self.column = "*"
@@ -660,10 +620,8 @@ class PyMySqlArs:
             
             
     def mold_select(self, where_switch, order_by_switch):
-        '''
-        Formamos la select con los datos entrantes.
-        salida: SELECT en formato SQL para su ejecucion. STR
-        '''
+        '''Formamos la select con los datos entrantes.
+        salida: SELECT en formato SQL para su ejecucion. STR'''
         
         SELECT = f"SELECT {self.column} FROM {self.table}" 
 
