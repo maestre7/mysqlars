@@ -66,8 +66,8 @@ def tipo_fichero(fichero):
         logger.exception('tipo_fichero')
         salida = False
     else:        
-        logger.info(f"tipo_fichero: {salida}")  
-    finally:        
+        logger.info(f"tipo_fichero: {salida}")
+    finally:
         return salida
         
         

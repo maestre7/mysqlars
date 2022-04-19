@@ -46,7 +46,7 @@ from common.archivos import tipo_fichero, leer_yaml, leer_json
 class PyMySqlArs:
 
     '''Management of connection with sql through dict for its conversion to SQL.'''
- 
+
  
     def __init__(self):
         
@@ -78,7 +78,7 @@ class PyMySqlArs:
         except (ValueError, KeyError, pymysql.Error):
             self.logger.exception("conexion sql")
             salida = False
-        else: 
+        else:
             salida = self.conn
         finally:
             return salida
@@ -125,7 +125,7 @@ class PyMySqlArs:
             
         
     def tratar_datos(self, datos):
-        '''Discriminamos si los datos son un Dict o list/tupla de Dict. 
+        '''Discriminamos si los datos son un Dict o list/tupla de Dict.
         Datos: Informacion a procesar. DICT o LIST/TUPLA de DICT
         Salida: Informacon pre-procesada o False en caso de error. DICT o LIST[DICT] o FALSE/NONE'''
         
@@ -147,7 +147,7 @@ class PyMySqlArs:
                 salida = datos_temp
                     
             elif type(datos) is dict:
-                salida = self.tratar_dict(datos)  
+                salida = self.tratar_dict(datos)
                 
             else:
                 self.logger.error('tratar_datos: Tipo de datos no soportada')
@@ -203,8 +203,8 @@ class PyMySqlArs:
             if table_exists and cabecera_temp != [] and values_temp != []:
                 dict_salida.update({'#column': [cabecera_temp, values_temp]})
                 salida = dict_salida
-            elif table_exists and cabecera_temp == [] and values_temp == []: 
-                salida = dict_salida # El delete no necesita column 
+            elif table_exists and cabecera_temp == [] and values_temp == []:
+                salida = dict_salida # El delete no necesita column
             else:
                 self.logger.error(f"tratar_dict: no table;{datos_dict}")
         finally:
@@ -219,14 +219,14 @@ class PyMySqlArs:
         elif conn == False:
             self.no_conn = True
         else:    
-            self.conn = conn     
+            self.conn = conn
 
             
     def update(self, datos, conn=None):
         '''Recivimos los datos a updatear, los tratamos y ejecutamos el cursor.
         datos: un dict o una lista de ellos con la informacion a tratar. DICT o LIST/TUPLA de DICT
         conn: Conexion previamente establecida o datos para establecer una nueva.
-        conn: False para solo recibir el update listo para ejecucion. 
+        conn: False para solo recibir el update listo para ejecucion.
         OBJ, DICT o STR/PATH de un fichero YAML o JSON. FALSE.'''
         
         salida = None
@@ -286,7 +286,7 @@ class PyMySqlArs:
             datos_update.extend(data['#column'][1]) # Valores
             datos_update.extend(data['#where'][1])
             
-            UPDATE = f"UPDATE {data['#table']} SET {cabecera} WHERE {data['#where'][0]}" 
+            UPDATE = f"UPDATE {data['#table']} SET {cabecera} WHERE {data['#where'][0]}"
             
         except (ValueError, AttributeError, TypeError):
             self.logger.exception("tratar_update")
@@ -305,7 +305,7 @@ class PyMySqlArs:
         datos_update: Valores de los campos del update. LIST'''
 
         try:
-            c_update = self.conn.cursor() # Declarramos cursor 
+            c_update = self.conn.cursor() # Declarramos cursor
 
             c_update.execute(UPDATE,(datos_update))
             
@@ -321,7 +321,7 @@ class PyMySqlArs:
     def insert(self, datos, conn=None):
         '''Recivimos los datos a insertar, los tratamos y ejecutamos el cursor.
         datos: un dict o una lista de ellos con la informacion a tratar. DICT o LIST/TUPLA de DICT
-        conn: Conexion previamente establecida o datos para establecer una nueva. 
+        conn: Conexion previamente establecida o datos para establecer una nueva.
         conn: False para solo recibir el insert listo para ejecucion.
         OBJ, DICT o STR/PATH de un fichero YAML o JSON'''
         
@@ -410,7 +410,7 @@ class PyMySqlArs:
         except pymysql.Error:
             self.logger.exception(f"ejecutar_insert: ({INSERT},({datos_insert}))")   
         else:
-            c_insert.close() 
+            c_insert.close()
             self.logger.info(f"ejecutar_insert ok: {INSERT}")
             
             
@@ -498,7 +498,7 @@ class PyMySqlArs:
             self.conn.commit()
             
         except pymysql.Error:
-            self.logger.exception(f"ejecutar_delete: ({DELETE},({datos_delete}))")   
+            self.logger.exception(f"ejecutar_delete: ({DELETE},({datos_delete}))")
         else:
             c_delete.close()
             self.logger.info(f"ejecutar_delete ok: {DELETE}")
@@ -511,7 +511,7 @@ class PyMySqlArs:
         '''Funcion para la creacion de una select SQL a partir de un dict.
         data: Informacion requerida para formar la select. DICT o LIST[DICT]
         conn: Conexion previamente establecida o datos para establecer una nueva.
-        conn: False para solo recibir el select listo para ejecucion.        
+        conn: False para solo recibir el select listo para ejecucion. 
         OBJ, DICT o STR/PATH de un fichero YAML o JSON
         salida: Datos recuperados con la select o False si da error. DICT o LIST[DICT/LIST] o FALSE/NONE'''
         
@@ -520,7 +520,7 @@ class PyMySqlArs:
         
         try:
             if conn != None:
-                self.check_conn(conn)   
+                self.check_conn(conn)
                     
             if type(data) is list:
                 salida_select = []
@@ -662,7 +662,7 @@ class PyMySqlArs:
         except (pymysql.Error,ValueError, AttributeError, TypeError):
             self.logger.exception(f"ejecutar_select: ({SELECT},({where_values}))")   
         else:
-            c_select.close() 
+            c_select.close()
             self.logger.info(f"ejecutar_select ok: {SELECT}")
         finally:
             return records
