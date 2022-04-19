@@ -35,7 +35,7 @@
 #########################################################################################################################
 
 import logging # Log
-from pathlib import Path, WindowsPath # Path
+from pathlib import WindowsPath # Path
 
 import pymysql # Conexion sql
 
